@@ -5,12 +5,16 @@ import (
 	"fmt"  // printing stuff 
 	"io" // read from io	
 	"os" // use os resources?
-	//"strings"
+	"flag"
 )
 
-func count(r io.Reader) int {
+func count(r io.Reader, countLines bool) int {
 	scanner := bufio.NewScanner(r)
-	scanner.Split(bufio.ScanWords)
+	
+
+	if(!countLines) {
+		scanner.Split(bufio.ScanWords)
+	}
 
 	wc:= 0
 
@@ -22,5 +26,7 @@ func count(r io.Reader) int {
 }
 
 func main() {
-	fmt.Print(count(os.Stdin));	
+	lines := flag.Bool("l", false, "Count lines")
+	flag.Parse()
+	fmt.Println(count(os.Stdin, *lines))	
 }
